@@ -1,4 +1,4 @@
-# Greenpeace Planet 4 ukraine
+# Greenpeace Planet 4 planet4ukraine
 
 ![Planet4](./planet4.png)
 

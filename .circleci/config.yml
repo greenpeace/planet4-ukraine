@@ -22,9 +22,11 @@ defaults: &defaults
 
 orbs:
   slack: circleci/slack@3.4.2
+
+
 job_environments:
   common_environment: &common_environment
-    APP_HOSTPATH: ukraine
+    APP_HOSTPATH: planet4ukraine
     CONTAINER_PREFIX: planet4-ukraine
     WP_DB_NAME_PREFIX: planet4-ukraine_wordpress
   develop_environment: &develop_environment
@@ -33,7 +35,7 @@ job_environments:
     CLOUDSQL_INSTANCE: p4-develop-k8s
     GOOGLE_PROJECT_ID: planet-4-151612
     GCLOUD_CLUSTER: p4-development
-    HELM_NAMESPACE: ukraine-development
+    HELM_NAMESPACE: planet4ukraine-development
     HELM_RELEASE: planet4-ukraine
     WP_DB_NAME: planet4-ukraine_wordpress_develop
     WP_STATELESS_BUCKET: planet4-ukraine-stateless-develop
@@ -45,21 +47,20 @@ job_environments:
     CLOUDSQL_INSTANCE: planet4-prod
     GCLOUD_CLUSTER: planet4-production
     GOOGLE_PROJECT_ID: planet4-production
-    HELM_NAMESPACE: ukraine-staging
+    HELM_NAMESPACE: planet4ukraine-staging
     HELM_RELEASE: planet4-ukraine-release
     WP_DB_NAME: planet4-ukraine_wordpress_release
     WP_STATELESS_BUCKET: planet4-ukraine-stateless-release
   production_environment: &production_environment
-    APP_HOSTNAME: www-prod.greenpeace.org
+    APP_HOSTNAME: www.greenpeace.org
     CLOUDSQL_INSTANCE: planet4-prod
     GCLOUD_CLUSTER: planet4-production
     GOOGLE_PROJECT_ID: planet4-production
-    HELM_NAMESPACE: ukraine
+    HELM_NAMESPACE: planet4ukraine
     HELM_RELEASE: planet4-ukraine-master
     MIN_REPLICA_COUNT: 2
     WP_DB_NAME: planet4-ukraine_wordpress_master
     WP_STATELESS_BUCKET: planet4-ukraine-stateless
-
 
 commands:
   approve_job:

@@ -1,12 +1,11 @@
 {
-    "name": "greenpeace/planet4-ukraine",
-    "description": "Greenpeace Planet 4",
-    "license": "MIT",
-    "require": {
-        "greenpeace/planet4-master-theme" : "dev-main",
-        "greenpeace/planet4-plugin-gutenberg-blocks" : "dev-main"
-    },
-    "scripts": {
-        "site:custom" : []
-    }
+  "name": "greenpeace/planet4-ukraine",
+  "description": "Greenpeace Planet 4 Ukraine",
+  "license": "MIT",
+  "require": {
+    "greenpeace/planet4-child-theme-ukraine": "dev-main"
+  },
+  "scripts": {
+    "site:custom" : []
+  }
 }

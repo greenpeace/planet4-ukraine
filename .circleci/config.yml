@@ -22,8 +22,6 @@ defaults: &defaults
 
 orbs:
   slack: circleci/slack@3.4.2
-
-
 job_environments:
   common_environment: &common_environment
     APP_HOSTPATH: ukraine
@@ -61,6 +59,7 @@ job_environments:
     MIN_REPLICA_COUNT: 2
     WP_DB_NAME: planet4-ukraine_wordpress_master
     WP_STATELESS_BUCKET: planet4-ukraine-stateless
+
 
 commands:
   approve_job:
@@ -197,6 +196,21 @@ job_definitions:
       - run: make persist
       - run: BUILD_TAG="${CIRCLE_TAG}" make deploy
 
+  rollback_db_steps: &rollback_db_steps
+    working_directory: /tmp/workspace/src
+    steps:
+    - checkout
+    - run:
+        name: Configure
+        command: activate-gcloud-account.sh
+    - run:
+        name: Get keys
+        command: echo $SQLPROXY_KEY | base64 -d > key.json
+    - run:
+        name: Restore database
+        command: restore_db.sh
+        no_output_timeout: 20m
+
 jobs:
   build-develop:
     <<: *defaults
@@ -313,6 +327,13 @@ jobs:
       <<: *common_environment
       <<: *production_environment
     <<: *rollback_steps
+
+  rollback-production-db:
+    <<: *defaults
+    environment:
+      <<: *common_environment
+      <<: *production_environment
+    <<: *rollback_db_steps
 
   create-sync-sql:
     <<: *defaults
@@ -480,10 +501,19 @@ workflows:
           type: approval
           requires:
             - rollback-staging
+      - hold-production-db:
+          <<: *on_release_tag
+          type: approval
+          requires:
+            - rollback-staging
       - rollback-production:
           <<: *on_release_tag
           requires:
             - hold-production
+      - rollback-production-db:
+          <<: *on_release_tag
+          requires:
+            - hold-production-db
 
   sync-from-production:
     triggers:
